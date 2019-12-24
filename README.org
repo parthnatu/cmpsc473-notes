@@ -1,4 +1,3 @@
-CMPSC473 -*- mode: org -*-
 * CMPSC473 Notes
 
 ** Topic 1 -- Bit Manipulation
@@ -82,10 +81,18 @@ consists of 5 parts : store (memory), control (cpu), ALU, input and output
 *** Instruction Set Architecture
 <bs, skip this>
 *** Need for an OS
-_?An OS is software that allows multiple programs to run on the same computer?_
+_?An OS is software that allows multiple programs to run on the same computer?._
 a computer has a lot of resources -- memory, cpu cycles, cache, I/O etc.
-when muliple programs want to access the same resource, there will be a conflict
+when muliple programs want to access the same resource, there will be a conflict.
 there is a need for a policy -- either _program driven_ i.e. trust the program to give up a resource once it doesn't need it or _hardware driven_ -- establish a rigid policy to allocate resources to programs. both of these have their caveats. to overcome -- OS.
+
+to solve these problems, an operating system does three things:
+1. virtualizes resources
+2. persists data
+3. enables concurrency
+*** History of OS
+<read the slides>
+
 
  
 
