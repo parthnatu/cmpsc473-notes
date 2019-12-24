@@ -61,6 +61,9 @@ as you can see 0x100A and 0x100B are padded so that f1 can be read fast
 #+END_SRC
 read the [[https://en.wikipedia.org/wiki/Include_guard][wiki]] for include guards
 *** Process Layout
+:PROPERTIES:
+:CUSTOM_ID: process_layout
+:END:
 consists of threads and memory
 memory divided into following segments:
 | stack : current state of execution, local variables and scope, grows downward |
@@ -92,7 +95,9 @@ to solve these problems, an operating system does three things:
 3. enables concurrency
 *** History of OS
 <read the slides>
-
-
- 
-
+** Topic 3 - Process
+*** Supervisor and User Modes
+supervisor is basically root -- os runs its own programs in supervisor mode -- kernel stuff -- called ring 0
+user mode is where the OS loads all processes -- ring 3
+refer to process layout here
+[[process_layout][process layout]]
