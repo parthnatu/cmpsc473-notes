@@ -130,6 +130,77 @@ refer to process layout here
 - The Process Data Structure:
 refer to it here [[img/xv6-process-data-structure.png]]
 
+*** OSTEP -- Chapter 5 -- Interlude: Process API
+- We will discuss various system calls in the Process API
+- ~fork()~:
+  - its strange
+  - a fork call returns a PID
+  - internally what happens is that the OS creates one more process with an _almost_ identical structure -- except the PID and where the child process starts running
+  - the child process wont start from ~main()~ but from the ~fork()~ call
+  - the child process will recieve the PID 0 from ~fork()~ -- means itself
+  - the parent process will recieve the PID of the child from ~fork()~
+  - think of them as separate threads --  thus the output after a ~fork()~ is _non-deterministic_
+  - refer to the following code:
+#+BEGIN_SRC c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[]){
+  printf("hello world (pid:%d) \n", (int)getpid());
+  int rc = fork();
+  if(rc < 0){
+    fprintf(stderr, "fork failed\n");
+    exit(1);
+  }
+  else if(rc == 0){
+    printf("hello, I am child (pid:%d)\n", (int) getpid());
+  }
+  else{
+    printf("hello, I am parent of %d (pid:%d)\n",rc,(int)getpid());
+  }
+  return 0;
+}
+
+#+END_SRC
+
+
+- ~wait()~:
+  - waits for the child process to end to continue execution
+  - makes the program _deterministic_
+  - in the code below, wc is the PID of the child process for which its waiting
+
+#+BEGIN_SRC c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[]){
+  printf("hello world (pid:%d) \n", (int)getpid());
+  int rc = fork();
+  if(rc < 0){
+    fprintf(stderr, "fork failed\n");
+    exit(1);
+  }
+  else if(rc == 0){
+    printf("hello, I am child (pid:%d)\n", (int) getpid());
+  }
+  else{
+    int wc = wait(NULL);
+    printf("hello, I am parent of %d (pid:%d)\n",rc,(int)getpid());
+  }
+  return 0;
+}
+#+END_SRC
+
+- ~exec()~:
+  - Its actually a family of functions -- run ~man exec 3~ to find out more
+  - ~fork()~ makes a copy of itself whereas ~exec()~ calls a different program
+  - an ~exec()~ call does not return to its parent -- rather the code, static data, stack and heap are replaced almost as if the exec'ed program was the original process -- a new process is _not_ created
+
+*** Back to PPT
+- PCB -- Process control block -- basically the data structure used by the OS to store the state etc. for a process
+- Parent forks a child -- which might fork or exec -- and so on.. this forms a _process tree_
 
 
 
@@ -139,6 +210,27 @@ refer to it here [[img/xv6-process-data-structure.png]]
 
 
 
+
+
+
+
+
+
+
+
+
+*** Process Loading
+- Each program is stored in a binary executable format called ELF -- Executable and Linkable Format
+- Contains 2 parts:
+  - Program sections which contains text, data etc.
+  - Program segments -- what to load at runtime
+- Source to Program to Process
+  - .c to ELF via cc (source to program)-- then the a.out gets _loaded_ by a dynamic loader (program to process) -- the process _adds dynamic libs_ using the dynamic linker
+- How does the OS load binaries?
+  - Load the Program Interpreter -- segtype: PT_INTERP -- run by ~exec()~
+  - The interpreter loads the loadable segments -- the text, global, static data -- segtype: PT_LOAD
+  - Other dynamic segments including the libs are loaded _when needed_
+<ppt is quite sparse -- pay attention in class>
 
 
 
