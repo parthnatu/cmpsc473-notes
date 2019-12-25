@@ -1,3 +1,4 @@
+#+STARTUP: indent
 * CMPSC473 Notes
 
 ** Topic 1 -- Bit Manipulation
@@ -101,3 +102,49 @@ supervisor is basically root -- os runs its own programs in supervisor mode -- k
 user mode is where the OS loads all processes -- ring 3
 refer to process layout here
 [[process_layout][process layout]]
+
+*** OSTEP -- Chapter 4 -- The Abstraction: The Process
+- A process is a running program
+- In a computer there is once CPU but many programs -- so the OS provides the virtualization of dedicated CPUs for each program
+- It does so using time-sharing for concurrency
+- We need _low-level machinery_ and _high-level intelligence_ to pull this off
+- Various parameters of a process define its _machine state_:
+  - address space -- memory that the process _can_ address
+  - program counter, stack pointer, frame pointer
+  - accessed files and devices
+- The Process API:
+  - create -- self-explanatory
+  - destroy -- ability to premptively destroy processes -- Ctrl+C/Z
+  - wait -- wait for a process to stop running
+  - misc control -- e.g. ability to suspend and resume a process
+  - status -- runtime, state etc.
+- Process Creation:
+  - first the program's code + static data is loaded from its executable format from the disk to main memory. this can be done all at once called _eager loading_ or done in batches called _lazy loading_.
+  - next, the OS allocates memory for the stack -- this is needed for local vars, function params and return addresses
+  - it also may allocate memory for the heap -- this can be dynamically allocated and deallocated using ~malloc()~ and ~free()~ in C
+  - other init tasks related to I/O and then it jumps to ~main()~
+- Process States:
+  - running --
+  - ready -- ready to be run but CPU is not running it right now
+  - blocked -- it has performed some task that makes it not ready to continue running and it waits -- e.g. reading I/O from disk
+- The Process Data Structure:
+refer to it here [[img/xv6-process-data-structure.png]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
