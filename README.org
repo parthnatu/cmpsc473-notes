@@ -13,11 +13,6 @@
   |___________|
   |0x00340000|
 Literally like a mask
-\documentclass{article}
-\usepackage{xlop}
-\begin{document}
-\opmul{384}{56}\qquad
-\end{document}
 *** Word size
 - determines how large the address space is going to be for a machine
 - is equal to 2^(word_size) number of bytes 
@@ -32,7 +27,7 @@ Literally like a mask
 - if we pass a negative number it will be interpreted incorrectly because it will be cast as an unsigned number with the MSB as 1
 ** Topic 2 -- C Programming and intro to OS
 *** Pointer Arithmetic
-- pointers in C are denoted using <data_type>* <identifier>;
+- pointers in C are denoted using ~<data_type>* <identifier>;~
 - they represent the memory address of the stored variable.
 - different datatypes have different pointer increment sizes i.e. for char its 1 byte, for int its 4 bytes
 - thus if int* p = 0x1000 ==> p+1 = 0x1004 because its increment size is 4 bytes
@@ -90,27 +85,24 @@ consists of 5 parts : store (memory), control (cpu), ALU, input and output
 *** Instruction Set Architecture
 <bs, skip this>
 *** Need for an OS
-_?An OS is software that allows multiple programs to run on the same computer?._
-a computer has a lot of resources -- memory, cpu cycles, cache, I/O etc.
-when muliple programs want to access the same resource, there will be a conflict.
-there is a need for a policy -- either _program driven_ i.e. trust the program to give up a resource once it doesn't need it or _hardware driven_ -- establish a rigid policy to allocate resources to programs. both of these have their caveats. to overcome -- OS.
+- _An OS is software that allows multiple programs to run on the same computer_
+- a computer has a lot of resources -- memory, cpu cycles, cache, I/O etc.
+- when muliple programs want to access the same resource, there will be a conflict.
+- there is a need for a policy -- either _program driven_ i.e. trust the program to give up a resource once it doesn't need it or _hardware driven_ -- establish a rigid policy to allocate resources to programs. both of these have their caveats. to overcome -- OS.
 
-to solve these problems, an operating system does three things:
-1. virtualizes resources
-2. persists data
-3. enables concurrency
+- to solve these problems, an operating system does three things:
+  1. virtualizes resources
+  2. persists data
+  3. enables concurrency
 *** History of OS
 <read the slides>
 ** Topic 3 - Process
 *** Supervisor and User Modes
-supervisor is basically root -- os runs its own programs in supervisor mode -- kernel stuff -- called ring 0
-user mode is where the OS loads all processes -- ring 3
-refer to process layout here
-[[process_layout][process layout]]
-
+-supervisor is basically root -- os runs its own programs in supervisor mode -- kernel stuff -- called ring 0
+- user mode is where the OS loads all processes -- ring 3
 *** OSTEP -- Chapter 4 -- The Abstraction: The Process
 - A process is a running program
-- In a computer there is once CPU but many programs -- so the OS provides the virtualization of dedicated CPUs for each program
+- In a computer there is one CPU but many programs -- so the OS provides the virtualization of dedicated CPUs for each program
 - It does so using time-sharing for concurrency
 - We need _low-level machinery_ and _high-level intelligence_ to pull this off
 - Various parameters of a process define its _machine state_:
@@ -218,14 +210,11 @@ int main(int argc, char *argv[]){
   - The interpreter loads the loadable segments -- the text, global, static data -- segtype: PT_LOAD
   - Other dynamic segments including the libs are loaded _when needed_
 <ppt is quite sparse -- pay attention in class>
-
-
-
 ** Topic 4 -- CPU Virtualization
-When multiple processes want to run on one CPU the Operating System _virtualizes_ the CPU to give an illusion to each process that it is the only one running
+- When multiple processes want to run on one CPU the Operating System _virtualizes_ the CPU to give an illusion to each process that it is the only one running
 
-let's consider two processes running concurrently on a CPU
-We look at undesirable events that a process might do while running concurrently
+- let's consider two processes running concurrently on a CPU
+- We look at undesirable events that a process might do while running concurrently
 
 *** Executing Privileged Instructions
 - A process should not be allowed to run a subset of the ISA known as privileged instructions -- could be disastrous
