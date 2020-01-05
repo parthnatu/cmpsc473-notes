@@ -13,6 +13,11 @@
   |___________|
   |0x00340000|
 Literally like a mask
+\documentclass{article}
+\usepackage{xlop}
+\begin{document}
+\opmul{384}{56}\qquad
+\end{document}
 *** Word size
 - determines how large the address space is going to be for a machine
 - is equal to 2^(word_size) number of bytes 
