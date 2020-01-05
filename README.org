@@ -8,10 +8,10 @@
 - hex is easy to represent and convert -- in C they are prefixed by 0x
 - each digit in a hex number is 4 bits long from 0000 to 1111 -- 16 different numbers from 0-F
 *** Bitmasks
-  0x12345678
-& 0x00FF0000
-  ___________
-  0x00340000
+  |0x12345678|
+|& 0x00FF0000|
+  |___________|
+  |0x00340000|
 Literally like a mask
 *** Word size
 - determines how large the address space is going to be for a machine
